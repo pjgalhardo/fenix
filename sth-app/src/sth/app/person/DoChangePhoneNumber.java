@@ -24,6 +24,7 @@ public class DoChangePhoneNumber extends Command<SchoolManager> {
   public final void execute() {
     _form.parse();
     _receiver.doChangePhoneNumber(_newNumber.value());
+    _display.popup(_receiver.doShowPerson());
 
   }
 

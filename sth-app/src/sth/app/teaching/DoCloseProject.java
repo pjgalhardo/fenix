@@ -29,18 +29,16 @@ public class DoCloseProject extends Command<SchoolManager> {
   /** @see pt.tecnico.po.ui.Command#execute() */
   @Override
   public final void execute() throws DialogException, NoSuchProjectException, NoSuchDisciplineException {
-    //FIXME implement command
+    // FIXME implement command
     _form.parse();
-    if(_receiver.getDiscipline(_discipline.value())!=null){
-      if (_receiver.getDiscipline(_discipline.value()).getProject(_projectName.value())!=null){
+    if (_receiver.isDiscipline(_discipline.value())) {
+      if (_receiver.isDisciplineProject(_discipline.value(), _projectName.value())) {
         _receiver.doCloseProject(_discipline.value(), _projectName.value());
-      }
-      else{
+      } else {
         throw new NoSuchProjectException(_discipline.value(), _projectName.value());
       }
-      
-    }
-    else{
+
+    } else {
       throw new NoSuchDisciplineException(_discipline.value());
     }
   }

@@ -50,17 +50,20 @@ public class Discipline implements Serializable {
         }
     }
 
-    void showAllStudents() {
+    String showAllStudents() {
         Map<String, Student> students = new TreeMap<String, Student>();
         for (Map.Entry<Integer, Student> entry : _students.entrySet()) {
             Student student = entry.getValue();
             students.put(student.getName(), student);
         }
+        String studentsOutput = "";
         for (Map.Entry<String, Student> entry : students.entrySet()) {
             Student student = entry.getValue();
-            System.out.println(student);
+            studentsOutput += student + "\n";
         }
+        studentsOutput += "\n";
         students.clear();
+        return studentsOutput;
     }
 
     public Project getProject(String name) {

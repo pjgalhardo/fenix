@@ -29,10 +29,9 @@ public class DoCreateProject extends Command<SchoolManager> {
   @Override
   public final void execute() throws DialogException {
     _form.parse();
-    if(_receiver.getDiscipline(_discipline.value()) != null){
+    if (_receiver.isDiscipline(_discipline.value())) {
       _receiver.doCreateProject(_discipline.value(), _projectName.value());
-    }
-    else{
+    } else {
       throw new NoSuchDisciplineException(_discipline.value());
     }
   }
