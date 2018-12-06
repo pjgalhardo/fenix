@@ -77,6 +77,7 @@ public class Discipline implements Serializable {
     }
 
     void closeProject(String name) {
+        System.out.println(getProject(name));
         Project project = getProject(name);
         if (project != null) {
             project.close();

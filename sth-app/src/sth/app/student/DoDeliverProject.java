@@ -12,20 +12,20 @@ import sth.SchoolManager;
  */
 public class DoDeliverProject extends Command<SchoolManager> {
 
-  //FIXME add input fields if needed
+  Input<String> _project;
 
   /**
    * @param receiver
    */
   public DoDeliverProject(SchoolManager receiver) {
     super(Label.DELIVER_PROJECT, receiver);
-    //FIXME initialize input fields if needed
+    _project = _form.addStringInput(Message.requestProjectName());
   }
 
   /** @see pt.tecnico.po.ui.Command#execute() */
   @Override
   public final void execute() throws DialogException {
-    //FIXME implement command
+    _form.parse();
   }
 
 }

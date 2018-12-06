@@ -138,7 +138,7 @@ public class SchoolManager {
   }
 
   public boolean isDisciplineProject(String disciplineName, String project) {
-    Discipline discipline = new Discipline(disciplineName);
+    Discipline discipline = getDiscipline(disciplineName);
     return discipline.getProject(project) != null;
   }
 
@@ -184,13 +184,10 @@ public class SchoolManager {
   }
 
   public void doCreateProject(String discipline, String projectName) {
-    if (_loggedUser instanceof Teacher) {
-      Teacher teacher = (Teacher) _loggedUser;
-      Discipline _discipline = teacher.getDiscipline(discipline);
-      if (_discipline != null) {
-        _discipline.createProject(projectName);
-      }
-    }
+    Teacher teacher = (Teacher) _loggedUser;
+    Discipline _discipline = teacher.getDiscipline(discipline);
+    _discipline.createProject(projectName);
+
   }
 
   public void doCloseProject(String discipline, String projectName) {
