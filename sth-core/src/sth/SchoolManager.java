@@ -26,6 +26,10 @@ public class SchoolManager {
   public SchoolManager() {
   }
 
+  public void setFile(String file) {
+    _file = file;
+  }
+
   void checkLogin() throws NoSuchPersonException {
     if (_loggedUser != null) {
       if (_school.getPerson(_loggedUser.getId()) == null) {
@@ -105,33 +109,37 @@ public class SchoolManager {
 
   public void doChangePhoneNumber(int phoneNumber) {
     _loggedUser.changePhoneNumber(phoneNumber);
-    try {
-      _school.removePerson(_loggedUser);
-
-      _school.addPerson(_loggedUser);
-      doShowPerson();
-    } catch (NoSuchPersonException e) {
-      e.printStackTrace();
-    }
   }
 
   public void doSearchPerson(String name) {
     _school.searchPerson(name);
   }
 
-  public void doShowPerson() {
-    System.out.println(_loggedUser);
+  public String doShowPerson() {
+    return _loggedUser.toString();
   }
 
   public void doShowAllPersons() {
     _school.showAllPersons();
   }
 
-  public void doShowDisciplineStudents(String discipline) {
-    if (_loggedUser instanceof Teacher) {
-      Teacher teacher = (Teacher) _loggedUser;
-      teacher.doShowAllDisciplineStudents(discipline);
-    }
+  public String doShowDisciplineStudents(String discipline) {
+    Teacher teacher = (Teacher) _loggedUser;
+    return teacher.doShowAllDisciplineStudents(discipline);
+  }
+
+  public boolean isDiscipline(String discipline) {
+    return getDiscipline(discipline) != null;
+  }
+
+  public boolean isTeacherDiscipline(String discipline) {
+    Teacher teacher = (Teacher) _loggedUser;
+    return (teacher.getDiscipline(discipline) != null);
+  }
+
+  public boolean isDisciplineProject(String disciplineName, String project) {
+    Discipline discipline = new Discipline(disciplineName);
+    return discipline.getProject(project) != null;
   }
 
   public Discipline getDiscipline(String discipline) {
@@ -152,17 +160,7 @@ public class SchoolManager {
 
   public void writeFile() {
     try {
-      ObjectOutputStream oos = new ObjectOutputStream(new BufferedOutputStream(new FileOutputStream(_file)));
-      oos.writeObject(_school);
-      oos.close();
-    } catch (IOException e) {
-      e.printStackTrace();
-    }
-  }
-
-  public void writeFile(String file) {
-    _file = file;
-    try {
+      System.out.println(_file);
       ObjectOutputStream oos = new ObjectOutputStream(new BufferedOutputStream(new FileOutputStream(_file)));
       oos.writeObject(_school);
       oos.close();
@@ -175,26 +173,11 @@ public class SchoolManager {
     try {
       ObjectInputStream ois = new ObjectInputStream(new BufferedInputStream(new FileInputStream(_file)));
       _school = (School) ois.readObject();
+      ois.close();
       if (_school.getPerson(_loggedUser.getId()) == null) {
         throw new NoSuchPersonException(_loggedUser.getId());
       }
       _loggedUser = _school.getPerson(_loggedUser.getId());
-      ois.close();
-    } catch (ClassNotFoundException | IOException e) {
-      e.printStackTrace();
-    }
-  }
-
-  public void openFile(String file) throws NoSuchPersonException {
-    _file = file;
-    try {
-      ObjectInputStream ois = new ObjectInputStream(new BufferedInputStream(new FileInputStream(_file)));
-      _school = (School) ois.readObject();
-      if (_school.getPerson(_loggedUser.getId()) == null) {
-        throw new NoSuchPersonException(_loggedUser.getId());
-      }
-      _loggedUser = _school.getPerson(_loggedUser.getId());
-      ois.close();
     } catch (ClassNotFoundException | IOException e) {
       e.printStackTrace();
     }

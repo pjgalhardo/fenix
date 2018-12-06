@@ -37,11 +37,9 @@ public class Teacher extends Person {
         return result;
     }
 
-    void doShowAllDisciplineStudents(String discipline) {
+    String doShowAllDisciplineStudents(String discipline) {
         Discipline _discipline = getDiscipline(discipline);
-        if (_discipline != null) {
-            _discipline.showAllStudents();
-        }
+        return _discipline.showAllStudents();
     }
 
     @Override

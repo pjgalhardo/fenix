@@ -31,10 +31,9 @@ public class DoOpen extends Command<SchoolManager> {
       if (!_receiver.fileExists()) {
         _file = _form.addStringInput(Message.openFile());
         _form.parse();
-        _receiver.openFile(_file.value());
-      } else {
-        _receiver.openFile();
+        _receiver.setFile(_file.value());
       }
+      _receiver.openFile();
 
     } catch (NoSuchPersonException ife) {
       ife.printStackTrace();
