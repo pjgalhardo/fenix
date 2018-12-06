@@ -25,6 +25,7 @@ public class Parser {
   private School _school;
   private Person _person;
   private boolean _representative = false;
+  private String category;
 
   Parser(School s) {
     _school = s;
@@ -42,36 +43,32 @@ public class Parser {
           if (parts.length > 4) {
             throw new BadEntryException("Too many arguments");
           }
+          category = parts[0];
           int id = Integer.parseInt(parts[1]);
           int phoneNumber = Integer.parseInt(parts[2]);
-          if (parts[0].equals("ALUNO")) {
+          if (category.equals("ALUNO")) {
             _person = new Student(id, phoneNumber, parts[3]);
-          } else if (parts[0].equals("DELEGADO")) {
+          } else if (category.equals("DELEGADO")) {
             _person = new Student(id, phoneNumber, parts[3]);
             _representative = true;
-          } else if (parts[0].equals("DOCENTE")) {
+          } else if (category.equals("DOCENTE")) {
             _person = new Teacher(id, phoneNumber, parts[3]);
-          } else if (parts[0].equals("FUNCIONÁRIO")) {
+          } else if (category.equals("FUNCIONÁRIO")) {
             _person = new Administrative(id, phoneNumber, parts[3]);
           } else {
             throw new BadEntryException("No role");
           }
-          try {
-            _school.addPerson(_person);
-          } catch (NoSuchPersonException e) {
-            System.out.println("No Such Person");
-          }
+          _school.addPerson(_person, category);
         }
       }
     } catch (IOException e) {
       throw new IOException();
-
     }
 
   }
 
   private void changeRepresentative(String[] linesplit) {
-    if (_person instanceof Student) {
+    if (category.equals("DELEGADO")) {
       Student student = (Student) _person;
       if (_school.getCourse(linesplit[0]) == null) {
         _school.addCourse(new Course(linesplit[0]));
@@ -94,7 +91,7 @@ public class Parser {
 
   private void changeStudent(String[] linesplit) {
 
-    if (_person instanceof Student) {
+    if (category.equals("ALUNO")) {
       Student student = (Student) _person;
 
       if (_school.getCourse(linesplit[0]) == null) {
@@ -115,7 +112,7 @@ public class Parser {
   }
 
   private void changeTeacher(String[] linesplit) {
-    if (_person instanceof Teacher) {
+    if (category.equals("DOCENTE")) {
       Teacher teacher = (Teacher) _person;
       if (_school.getCourse(linesplit[0]) == null) {
         _school.addCourse(new Course(linesplit[0]));
@@ -133,13 +130,13 @@ public class Parser {
       throw new BadEntryException("No person");
     } else {
       String[] linesplit = line.split("\\|");
-      if (_person instanceof Administrative) {
+      if (category.equals("FUNCIONÁRIO")) {
         throw new BadEntryException("Bad input.");
-      } else if (_person instanceof Student && !_representative) {
+      } else if (category.equals("ALUNO") && !_representative) {
         changeStudent(linesplit);
-      } else if (_person instanceof Student && _representative) {
+      } else if (category.equals("DELEGADO") && _representative) {
         changeRepresentative(linesplit);
-      } else if (_person instanceof Teacher) {
+      } else if (category.equals("DOCENTE")) {
         changeTeacher(linesplit);
       }
     }
