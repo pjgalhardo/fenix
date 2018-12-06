@@ -45,20 +45,22 @@ public class Project implements Serializable {
         return (_submissions.get(student) != null);
     }
 
-    public void submit(Student student, String submission) {
+    public void submit(String discipline, Student student, String submission) {
         if (hasSubmitted(student.getId()))
             _submissions.remove(student.getId());
         _submissions.put(student.getId(), new Submission(submission));
+        showSubmissions(discipline);
     }
 
-    public void showSubmissions() {
-        String submissions = "";
+    public String showSubmissions(String discipline) {
+        String submissions = discipline + " - " + _name;
         for (Map.Entry<Integer, Submission> entry : _submissions.entrySet()) {
+            submissions += "\n* ";
             int student = entry.getKey();
-            submissions += student;
+            submissions += student + " - ";
             Submission submission = entry.getValue();
             submissions += submission.getName();
         }
-        System.out.println(submissions);
+        return submissions;
     }
 }

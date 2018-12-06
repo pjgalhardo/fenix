@@ -171,7 +171,7 @@ public class SchoolManager {
     Student student = (Student) _loggedUser;
     Discipline discipline = student.getDiscipline(disciplineName);
     Project project = discipline.getProject(projectName);
-    project.submit(student, message);
+    project.submit(disciplineName, student, message);
   }
 
   public Discipline getDiscipline(String discipline) {
@@ -232,5 +232,11 @@ public class SchoolManager {
         }
       }
     }
+  }
+
+  public String showProjectSubmissions(String disciplineName, String projectName) {
+    Discipline discipline = getDiscipline(disciplineName);
+    Project project = discipline.getProject(projectName);
+    return project.showSubmissions(disciplineName);
   }
 }
