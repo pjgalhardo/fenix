@@ -25,8 +25,8 @@ public class DoShowDisciplineStudents extends Command<SchoolManager> {
   @Override
   public final void execute() throws DialogException, NoSuchDisciplineException {
     _form.parse();
-    if (_receiver.isTeacherDiscipline(_discipline.value())) {
-      _display.popup(_receiver.doShowDisciplineStudents(_discipline.value()));
+    if (_receiver.getDiscipline(_discipline.value()) != null) {
+      _receiver.doShowDisciplineStudents(_discipline.value());
     } else {
       throw new NoSuchDisciplineException(_discipline.value());
     }
