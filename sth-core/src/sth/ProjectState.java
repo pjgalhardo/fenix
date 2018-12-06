@@ -1,8 +1,11 @@
 package sth;
 
-public abstract class ProjectState {
+import java.io.Serializable;
+
+public abstract class ProjectState implements Serializable {
     private Project _project;
     private boolean _closed;
+    private static final long serialVersionUID = 201810051538L;
 
     public ProjectState(Project project, boolean closed) {
         _project = project;

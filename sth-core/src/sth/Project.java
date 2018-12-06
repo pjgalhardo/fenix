@@ -54,8 +54,11 @@ public class Project implements Serializable {
     public void showSubmissions() {
         String submissions = "";
         for (Map.Entry<Integer, Submission> entry : _submissions.entrySet()) {
-            Student student = entry.getValue();
-            submissions += student.getId();
+            int student = entry.getKey();
+            submissions += student;
+            Submission submission = entry.getValue();
+            submissions += submission.getName();
         }
+        System.out.println(submissions);
     }
 }

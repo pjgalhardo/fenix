@@ -1,8 +1,11 @@
 package sth;
 
-public class Submission {
+import java.io.Serializable;
+
+public class Submission implements Serializable {
 
     private String _name;
+    private static final long serialVersionUID = 201810051538L;
 
     public Submission(String name) {
         _name = name;

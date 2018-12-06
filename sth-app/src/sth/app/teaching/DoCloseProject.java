@@ -7,8 +7,6 @@ import sth.SchoolManager;
 import sth.app.exceptions.NoSuchDisciplineException;
 import sth.app.exceptions.NoSuchProjectException;
 
-//FIXME import other classes if needed
-
 /**
  * 4.3.2. Close project.
  */

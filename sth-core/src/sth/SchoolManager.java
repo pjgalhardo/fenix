@@ -128,8 +128,15 @@ public class SchoolManager {
     return teacher.doShowAllDisciplineStudents(discipline);
   }
 
-  public boolean isDiscipline(String discipline) {
-    return getDiscipline(discipline) != null;
+  public boolean isDiscipline(String disciplineName) {
+    Discipline discipline;
+    if (_loggedUser instanceof Student) {
+      Student student = (Student) _loggedUser;
+      discipline = student.getDiscipline(disciplineName);
+    } else {
+      discipline = getDiscipline(disciplineName);
+    }
+    return discipline != null;
   }
 
   public boolean isTeacherDiscipline(String discipline) {
@@ -138,8 +145,33 @@ public class SchoolManager {
   }
 
   public boolean isDisciplineProject(String disciplineName, String project) {
-    Discipline discipline = getDiscipline(disciplineName);
+    Discipline discipline;
+    if (_loggedUser instanceof Student) {
+      Student student = (Student) _loggedUser;
+      discipline = student.getDiscipline(disciplineName);
+    } else {
+      discipline = getDiscipline(disciplineName);
+    }
     return discipline.getProject(project) != null;
+  }
+
+  public boolean isProjectOpen(String disciplineName, String projectName) {
+    Discipline discipline;
+    if (_loggedUser instanceof Student) {
+      Student student = (Student) _loggedUser;
+      discipline = student.getDiscipline(disciplineName);
+    } else {
+      discipline = getDiscipline(disciplineName);
+    }
+    Project project = discipline.getProject(projectName);
+    return project.isOpen();
+  }
+
+  public void deliverProject(String disciplineName, String projectName, String message) {
+    Student student = (Student) _loggedUser;
+    Discipline discipline = student.getDiscipline(disciplineName);
+    Project project = discipline.getProject(projectName);
+    project.submit(student, message);
   }
 
   public Discipline getDiscipline(String discipline) {
@@ -160,7 +192,6 @@ public class SchoolManager {
 
   public void writeFile() {
     try {
-      System.out.println(_file);
       ObjectOutputStream oos = new ObjectOutputStream(new BufferedOutputStream(new FileOutputStream(_file)));
       oos.writeObject(_school);
       oos.close();
