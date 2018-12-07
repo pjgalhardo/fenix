@@ -4,7 +4,7 @@ import pt.tecnico.po.ui.Command;
 import pt.tecnico.po.ui.DialogException;
 import pt.tecnico.po.ui.Input;
 import sth.SchoolManager;
-import sth.exceptions.NoSuchPersonException;
+import sth.app.exceptions.NoSuchPersonException;
 
 /**
  * 4.2.1. Show person.
@@ -28,7 +28,7 @@ public class DoLogin extends Command<SchoolManager> {
     _form.parse();
     try {
       _receiver.login(_login.value());
-    } catch (NoSuchPersonException e) {
+    } catch (Exception e) {
       throw new NoSuchPersonException(_login.value());
     }
   }

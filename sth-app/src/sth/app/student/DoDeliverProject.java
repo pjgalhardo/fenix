@@ -7,8 +7,6 @@ import sth.SchoolManager;
 import sth.app.exceptions.NoSuchDisciplineException;
 import sth.app.exceptions.NoSuchProjectException;
 
-//FIXME import other classes if needed
-
 /**
  * 4.4.1. Deliver project.
  */
@@ -46,5 +44,4 @@ public class DoDeliverProject extends Command<SchoolManager> {
       throw new NoSuchDisciplineException(_discipline.value());
     }
   }
-
 }

@@ -27,7 +27,6 @@ public class DoSave extends Command<SchoolManager> {
       _form.parse();
       _receiver.setFile(_file.value());
     }
-
     _receiver.writeFile();
   }
 

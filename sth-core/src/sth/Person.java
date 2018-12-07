@@ -1,8 +1,5 @@
 package sth;
 
-import pt.tecnico.po.ui.Command;
-import pt.tecnico.po.ui.DialogException;
-import pt.tecnico.po.ui.Input;
 import sth.SchoolManager;
 import java.io.Serializable;
 

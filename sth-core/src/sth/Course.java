@@ -1,13 +1,9 @@
 package sth;
 
 import java.io.Serializable;
-import pt.tecnico.po.ui.Command;
-import pt.tecnico.po.ui.DialogException;
-import pt.tecnico.po.ui.Input;
 import sth.Discipline;
 import sth.Student;
 import sth.exceptions.NoSuchPersonException;
-
 import java.util.Map;
 import java.util.TreeMap;
 

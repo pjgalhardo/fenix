@@ -19,7 +19,6 @@ public class DoShowPerson extends Command<SchoolManager> {
   @Override
   public final void execute() {
     _display.popup(_receiver.doShowPerson());
-
   }
 
 }
