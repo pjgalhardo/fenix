@@ -6,6 +6,11 @@ import sth.Person;
 import sth.Course;
 import java.util.Map;
 import java.util.TreeMap;
+import java.util.Locale;
+import java.util.Collections;
+import java.text.RuleBasedCollator;
+import java.util.Comparator;
+import java.text.ParseException;
 
 public class Student extends Person {
     private static final long serialVersionUID = 201810051538L;
@@ -15,6 +20,7 @@ public class Student extends Person {
     public Student(int id, int phoneNumber, String name) {
         super(id, phoneNumber, name);
         _disciplines = new TreeMap<String, Discipline>();
+
     }
 
     void becomeRepresentative() {
@@ -39,10 +45,12 @@ public class Student extends Person {
                 if (_disciplines.get(discipline.getName()) == null) {
                     if (_disciplines.size() < 6) {
                         _disciplines.put(discipline.getName(), discipline);
+
                     }
                 }
             }
         }
+
     }
 
     public Course getCourse() {
@@ -59,14 +67,23 @@ public class Student extends Person {
 
     private String printDisciplines() {
         String result = "";
-        if (_course != null) {
-            for (Map.Entry<String, Discipline> entry : _disciplines.entrySet()) {
-                Discipline discipline = entry.getValue();
-                result += "\n* " + discipline.getCourse().getName() + " - " + discipline.getName();
+        Map<String, Discipline> _sortedDisciplines;
+        try {
+            String portugueseRules = "< a,A < á,Á < â, Â < ã, Ã < b,B < c,C < ç,Ç < d,D < e,E < é,É < ê,Ê < f,F < g,G < h,H < i,I < í,Í < j,J < k,K < l,L < m,M < n,N < o,O < ó,Ó < õ,Õ < p,P < q,Q < r,R < s,S < t,T < u,U < ú,Ú < v,V < w,W < x,X < y,Y < z,Z";            RuleBasedCollator collator = new RuleBasedCollator(portugueseRules);
+            _sortedDisciplines = new TreeMap<String, Discipline>(collator);
+
+            _sortedDisciplines.putAll(_disciplines);
+            if (_course != null) {
+                for (Map.Entry<String, Discipline> entry : _sortedDisciplines.entrySet()) {
+                    Discipline discipline = entry.getValue();
+                    result += "\n* " + discipline.getCourse().getName() + " - " + discipline.getName();
+                }
             }
+            return result;
+        } catch (ParseException e) {
+            e.printStackTrace();
         }
         return result;
-
     }
 
     @Override

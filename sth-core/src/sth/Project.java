@@ -15,6 +15,7 @@ public class Project implements Serializable {
     // private String _description;
     private Map<Integer, Submission> _submissions;
     private ProjectState _projectState = new OpenProject(this);
+    private Survey _survey;
 
     Project(String name) {
         _name = name;
@@ -28,6 +29,16 @@ public class Project implements Serializable {
 
     public void close() {
         _projectState.close();
+        if (_survey != null) {
+            if (_survey.getState().equals("Created")) {
+                try {
+                    _survey.open();
+                } catch (Exception e) {
+                    // ignore because its never thrown in this case
+                }
+
+            }
+        }
     }
 
     public void setState(ProjectState state) {
@@ -59,5 +70,53 @@ public class Project implements Serializable {
             submissions += submission.getName();
         }
         return submissions;
+    }
+
+    public Survey getSurvey() {
+        return _survey;
+    }
+
+    public void createSurvey() {
+        _survey = new Survey();
+    }
+
+    public void cancelSurvey() {
+        if (_survey.getState().equals("Closed")) {
+            _survey.cancel();
+        }
+        _survey = null;
+    }
+
+    public void closeSurvey() throws Exception {
+        try {
+            _survey.close();
+        } catch (Exception e) {
+            throw new Exception("Error closing survey.");
+        }
+
+    }
+
+    public void openSurvey() throws Exception {
+        try {
+            _survey.open();
+        } catch (Exception e) {
+            throw new Exception("Error opening survey.");
+        }
+    }
+
+    public void finishSurvey() throws Exception {
+        try {
+            _survey.finish();
+        } catch (Exception e) {
+            throw new Exception("Error finishing survey.");
+        }
+    }
+
+    public boolean isSurveyFinished() {
+        return _survey.getState().equals("Finished");
+    }
+
+    public String showSurveyResults() {
+        return " * Número de submissões: " + _submissions.size() + "\n" + _survey.showResults();
     }
 }

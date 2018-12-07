@@ -7,9 +7,12 @@ import java.io.Serializable;
 import java.io.IOException;
 import sth.exceptions.BadEntryException;
 import sth.exceptions.NoSuchPersonException;
+import java.text.RuleBasedCollator;
 import sth.exceptions.ImportFileException;
 import java.io.FileNotFoundException;
 import sth.Parser;
+
+import java.text.ParseException;
 
 /**
  * School implementation.
@@ -92,28 +95,42 @@ public class School implements Serializable {
    * int getNextId() { return _nextid; }
    */
 
-  ArrayList<String> showAllPersons() {
-    ArrayList<String> persons = new ArrayList<String>();
+  String showAllPersons() {
+    String persons = "";
     for (Map.Entry<Integer, Person> entry : _users.entrySet()) {
       String person = entry.getValue().toString();
-      persons.add(person);
+      if (persons.equals("")) {
+        persons += person;
+      } else {
+        persons += ("\n" + person);
+      }
     }
     return persons;
   }
 
-  ArrayList<String> searchPerson(String name) {
-    Map<String, Person> persons = new TreeMap<String, Person>();
-    ArrayList<String> strings = new ArrayList<String>();
-    for (Map.Entry<Integer, Person> entry : _users.entrySet()) {
-      Person person = entry.getValue();
-      if (person.getName().contains(name)) {
-        persons.put(person.getName(), person);
+  String searchPerson(String name) {
+    String strings = "";
+    try {
+      String portugueseRules = "< a,A < á,Á < â, Â < ã, Ã < b,B < c,C < ç,Ç < d,D < e,E < é,É < ê,Ê < f,F < g,G < h,H < i,I < í,Í < j,J < k,K < l,L < m,M < n,N < o,O < ó,Ó < õ,Õ < p,P < q,Q < r,R < s,S < t,T < u,U < ú,Ú < v,V < w,W < x,X < y,Y < z,Z";    
+      RuleBasedCollator collator = new RuleBasedCollator(portugueseRules);
+      Map<String, Person> persons = new TreeMap<String, Person>(collator);
+
+      for (Map.Entry<Integer, Person> entry : _users.entrySet()) {
+        Person person = entry.getValue();
+        if (person.getName().contains(name)) {
+          persons.put(person.getName(), person);
+        }
       }
+      for (Map.Entry<String, Person> entry : persons.entrySet()) {
+        if (strings.equals("")) {
+          strings += entry.getValue().toString();
+        } else {
+          strings += ("\n" + entry.getValue().toString());
+        }
+      }
+    } catch (ParseException e) {
+      e.printStackTrace();
     }
-    for (Map.Entry<String, Person> entry : persons.entrySet()) {
-      strings.add(entry.getValue().getName());
-    }
-    persons.clear();
     return strings;
   }
 

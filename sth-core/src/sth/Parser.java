@@ -48,6 +48,7 @@ public class Parser {
           int phoneNumber = Integer.parseInt(parts[2]);
           if (category.equals("ALUNO")) {
             _person = new Student(id, phoneNumber, parts[3]);
+            _representative = false;
           } else if (category.equals("DELEGADO")) {
             _person = new Student(id, phoneNumber, parts[3]);
             _representative = true;
@@ -84,7 +85,6 @@ public class Parser {
       }
       _school.getCourse(linesplit[0]).getDiscipline(linesplit[1]).addStudent(student);
       student.becomeRepresentative();
-      _representative = false;
     }
   }
 

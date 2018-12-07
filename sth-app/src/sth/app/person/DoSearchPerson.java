@@ -10,7 +10,7 @@ import sth.SchoolManager;
 public class DoSearchPerson extends Command<SchoolManager> {
 
   Input<String> _person;
-  
+
   /**
    * @param receiver
    */
@@ -23,8 +23,7 @@ public class DoSearchPerson extends Command<SchoolManager> {
   @Override
   public final void execute() {
     _form.parse();
-    _receiver.doSearchPerson(_person.value());
+    _display.popup(_receiver.doSearchPerson(_person.value()));
   }
-
 
 }
